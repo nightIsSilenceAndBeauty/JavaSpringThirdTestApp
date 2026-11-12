@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -44,9 +45,12 @@ public class MyController {
     @PostMapping(value = "/feedback")
     public ResponseEntity<Response> feedback(
             @Valid @RequestBody Request request,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            @RequestHeader("X-Request-Received-At") long requestReceivedAtMillis
     ) {
         log.info("request: {}", request);
+        long elapsedMillis = System.currentTimeMillis() - requestReceivedAtMillis;
+        log.info("Elapsed time from Service 1 receipt to Service 2 receipt: {} ms", elapsedMillis);
         Response response = Response.builder()
                 .uid(request.getUid())
                 .operationUid(request.getOperationUid())
