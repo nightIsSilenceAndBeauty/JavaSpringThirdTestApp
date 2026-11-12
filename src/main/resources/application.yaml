@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: MySecondTestAppSpringBoot
+server:
+  port: 8084
+logging:
+  level:
+    org.springframework: ERROR
+    ru.trints.MySecondTestAppSpringBoot: DEBUG
